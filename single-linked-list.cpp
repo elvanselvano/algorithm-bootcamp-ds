@@ -35,37 +35,36 @@ void pushTail(const char *name, int score) {
   // A2 (head) -> B3 -> C4 (tail) -> D10 (temp) -> NULL || tail->next = temp
   // A2 (head) -> B3 -> C4 -> D10 (tail) -> NULL || tail = temp
 
-  Node *temp = createNode(name, score); // buat nodenya
+  Node *temp = createNode(name, score); // create new node
 
   if(!head) { // linked list kosong (0 node)
     head = tail = temp; // temp akan menjadi head dan tail
   } else { // >= 1 node
-    tail->next = temp; // tail lama -> next adalah node baru
-    tail = temp; // temp akan menjadi tail (node terakhir)
+    tail->next = temp; // tail menunjuk ke temp
+    tail = temp; // temp diberi label tail
   }
 }
 
 void popHead() {
-  if(!head) { // jika tidak ada node
-    return; // return (tidak ngapa2in)
-  } else if(head == tail) { // untuk kasus 1 node di pophead bsa diabaikan
+  if(!head) { // 0 node
+    return;
+  } else if(head == tail) { // only 1 node
     free(head); // free allocated memory
-    head = tail = NULL;
-  } else {
-    // INITIAL: 98 (head) -> 100 -> 95 -> 97 (tail) -> NULL
-    Node *temp = head; // 98 (head, temp) -> 100 -> 95 -> 97 (tail) -> NULL
-    head = temp->next; // 98 (temp) -> 100 (head) -> 95 -> 97 (tail) -> NULL
-    temp->next = NULL; // 98 (temp) -> NULL || 100 (head) -> 95 -> 97 (tail) -> NULL
-    free(temp); // 100 (head) -> 95 -> 97 (tail) -> NULL
+    head = tail = NULL; // remove value
+  } else { // >= 1 node
+    Node *temp = head->next; // 98 (head) -> 100 (temp) -> 95 -> 97 (tail) -> NULL
+    head->next = NULL; // 98 (head) -> N || 100 (temp) -> 95 -> 97 (tail) -> NULL
+    free(head); // free allocated memory
+    head = NULL; // remove value
   }
 }
 
 void popTail() {
-  if(!head) { // jika tidak ada node
-    return; // return (tidak ngapa2in)
-  } else if(head == tail) { // 50 (head, tail) -> NULL
+  if(!head) { // 0 node
+    return;
+  } else if(head == tail) { // only 1 node
     free(head); // free allocated memory
-    head = tail = NULL; // kosongkan nilainya
+    head = tail = NULL; // remove value
   } else {
     // INITIAL: 50 (head) -> 54 -> 73 -> 36 (tail) -> NULL
     Node *temp = head; // 50 (head, temp) -> 54 -> 73 -> 36 (tail) -> NULL
@@ -82,13 +81,11 @@ void popTail() {
 }
 
 void printLinkedList() {
-  Node *curr = head; // curr adalah index yang akan berjalan
-  // 30 (head) -> 20 -> 15 -> 40 (tail) -> NULL
-  //  curr
+  Node *curr = head; // set current node to head
                                           
-  while(curr) { // selama curr bukan NULL
-    printf("%s -> ", curr->name); // print data
-    curr = curr->next; // curr akan berjalan ke node selanjutnya
+  while(curr) { // while there is still curr
+    printf("%s -> ", curr->name);
+    curr = curr->next; // move to the next node
   }
   printf("NULL\n");
 }
