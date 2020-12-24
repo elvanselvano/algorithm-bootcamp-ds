@@ -1,8 +1,9 @@
 #include <stdio.h>
 #include <string.h>
 
-const int MAX_ELEMENT = 6;
-char HASHTABLES[MAX_ELEMENT][255];
+const int MAX_ELEMENT = 10; // maksimal elemen dalam hashtable
+const int MAX_LENGTH = 255; // panjang maksimal setiap elemen
+char HASHTABLES[MAX_ELEMENT][MAX_LENGTH]; // bisa menampung elemen sebanyak MAX_ELEMENT dengan tiap elemen memiliki panjang maksimal MAX_LENGTH
 
 void view() {
   for(int i = 0; i < MAX_ELEMENT; i++) {
@@ -11,45 +12,55 @@ void view() {
 }
 
 int hash(const char *str) {
-  return (str[0] - 'a') % MAX_ELEMENT;
+  // hash function ascii sum
+  int sum = 0;
+  for(int i = 0; str[i] != '\0'; i++) {
+    sum += str[i] - '0'; // sum ditambahkan ascii karakter sekarang
+  }
+
+  return sum % MAX_ELEMENT; // dimodulo agar tidak out of bounds
 }
 
 int linearProbing(int index) {
-  // loop from index+1
-  // for each iteration, i = (i+1) % MAX ELEMENT
-  // in order to make sure i won't pass MAX_ELEMENT
-  // just before it reach MAX_ELEMENT,
-  // i will become 0 because of modulo
-  // it will then loop from 0 to index
+  // loop dari index+1 karena index sudah full
+  // untuk tiap iterasi, i = (i+1) % MAX ELEMENT
+  // untuk memastikan i tidak melewati MAX_ELEMENT
+  // pas sebelum dia nyentuh MAX_ELEMENT,
+  // i akan menjadi 0 karena modulo
+  // kemudian i akan loop dari 0 sampai index-1
+
   for(int i = index+1; i != index; i = (i+1) % MAX_ELEMENT) {
     if(HASHTABLES[i][0] == '\0') { // jika table di index i kosong
-      return i;
+      return i; // return index kosongnya
     }
   }
 
-  return -1;
+  return -1; // tidak ketemu index kosong
 }
 
 void insert(const char *str) {
-  int index = hash(str); // get index
+  int index = hash(str); // dapatkan index melalui hash function
 
-  if(HASHTABLES[index][0] != '\0') { // if index is already full
-    index = linearProbing(index); // find new index
-  }
-
-  if(index != -1) { // if we can still insert to table
-    strcpy(HASHTABLES[index], str); // insert the value
-  } else {
-    puts("Table is full!");
+  if(HASHTABLES[index][0] == '\0') { // jika index masih kosong
+    strcpy(HASHTABLES[index], str); // masukkan string di hashtable
+  } else { // jika index sudah terisi
+    index = linearProbing(index); // cari index baru
+    if(index == -1) {
+      puts("Sudah penuh");
+      return;
+    }
+    strcpy(HASHTABLES[index], str); // masukkan string di index baru
   }
 }
 
 int main() {
-  insert("budi");
-  insert("asep");
-  insert("david");
-  insert("cecep");
-  insert("elsa");
+  insert("romario");
+  insert("admiralspoon");
+  insert("kesya");
+  insert("nich");
+  insert("valencia");
+  insert("laffpai");
+  insert("kevice");
   view();
   return 0;
 }
