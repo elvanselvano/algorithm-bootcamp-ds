@@ -17,13 +17,13 @@ Node *createNode(const char *name, int score) {
 }
 
 void pushHead(const char *name, int score) {
-  Node *temp = createNode(name, score); // buat node baru
+  Node *temp = createNode(name, score); // create new node
 
-  if(!head) { // linked list kosong (0 node)
-    head = tail = temp; // temp akan menjadi head dan tail
+  if(!head) { // if there's no head (0 node)
+    head = tail = temp;
   } else { // >= 1 node
-    temp->next = head; // node setelah temp adalah head
-    head = temp; // head baru adalah temp
+    temp->next = head; // node points to head
+    head = temp; // node becomes head
   }
 }
 
@@ -37,11 +37,11 @@ void pushTail(const char *name, int score) {
 
   Node *temp = createNode(name, score); // create new node
 
-  if(!head) { // linked list kosong (0 node)
-    head = tail = temp; // temp akan menjadi head dan tail
+  if(!head) { // if there's no head (0 node)
+    head = tail = temp;
   } else { // >= 1 node
-    tail->next = temp; // tail menunjuk ke temp
-    tail = temp; // temp diberi label tail
+    tail->next = temp; // tail points to node
+    tail = temp; // node becomes tail
   }
 }
 
@@ -87,7 +87,7 @@ void printLinkedList() {
     printf("%s -> ", curr->name);
     curr = curr->next; // move to the next node
   }
-  printf("NULL\n");
+  puts("NULL");
 }
 
 int main() {

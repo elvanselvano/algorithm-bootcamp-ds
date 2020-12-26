@@ -33,12 +33,12 @@ void push(int value) {
 }
 
 void remove() {
-  if(!top) { // kasus 0 node
+  if(!top) { // 0 node
     return;
-  } else if(top && top->next == NULL) { // kasus 1 node
+  } else if(top && top->next == NULL) { // 1 node
     free(top); // free allocated memory
     top = NULL; // remove value
-  } else { // kasus >= 1 node
+  } else { // > 1 node
     Node *temp = top->next;
     top->next = temp->prev = NULL;
     free(top);
@@ -47,18 +47,14 @@ void remove() {
 }
 
 void printStack() {
-  if(!top) {
-    return;
-  } else {
-    Node *curr = top;
+  Node *curr = top;
 
-    puts("Stack: ");
-    while(curr) {
-      printf("%d\n", curr->value);
-      curr = curr->next;
-    }
-    puts("");
+  puts("Stack: ");
+  while(curr) {
+    printf("%d\n", curr->value);
+    curr = curr->next; // traverse down
   }
+  puts("");
 }
 
 int main() {
