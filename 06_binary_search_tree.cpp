@@ -108,16 +108,22 @@ void postOrder(Node *root) {
 }
 
 int main() {
-  Node *baseRoot = NULL;
-  baseRoot = insertNode(baseRoot, 10);
-  baseRoot = insertNode(baseRoot, 5);
-  baseRoot = insertNode(baseRoot, 13);
-  baseRoot = insertNode(baseRoot, 16);
-  baseRoot = insertNode(baseRoot, 21);
-  baseRoot = insertNode(baseRoot, 4);
-  baseRoot = insertNode(baseRoot, 7);
-  baseRoot = deleteNode(baseRoot, 10);
-  inOrder(baseRoot);
+    Node *baseRoot = NULL;
+  int toInsert[] = {10, 11, 12, 5, 3, 2, 8, 7, 4, 1, 9, 25, 6, 30, 31};
+
+  for(int i = 0; i < 15; i++) {
+    baseRoot = insertNode(baseRoot, toInsert[i]);
+    // printf("Added %d to the tree.\n", toInsert[i]);
+    inOrder(baseRoot);
+    puts("");
+  }
+
+  for(int i = 0; i < 15; i++) {
+    baseRoot = deleteNode(baseRoot, toInsert[i]);
+    // printf("Removed %d from the tree.\n", toInsert[i]);
+    inOrder(baseRoot);
+    puts("");
+  }
 
   return 0;
 }
