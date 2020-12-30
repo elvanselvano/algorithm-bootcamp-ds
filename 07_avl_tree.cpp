@@ -1,23 +1,33 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+// Teori: https://medium.com/@elvanselvano/avl-tree-perfectly-balanced-as-all-things-should-be-ca15a6d59ac5
 struct Node {
   int value, height;
   Node *left, *right;
 };
 
+// mencari nilai maksimal dari dua angka
 int max(int a, int b) {
   return (a > b) ? a : b;
 }
 
+// mendapatkan tinggi sebuah node
+// jika NULL, heightnya adalah 0
 int getHeight(Node *root) {
   return (root) ? root->height : 0;
 }
 
+// Balance Factor = H1 - H2
+// H1 = tinggi anak kiri, H2 = tinggi anak kanan
+// jika NULL, Balance Factornya adalah 0
 int getBalanceFactor(Node *root) {
   return (root) ? getHeight(root->left) - getHeight(root->right) : 0;
 }
 
+// mendapatkan tinggi baru sebuah node
+// ketika ada insert atau delete (karena posisi bakal berubah)
+// new height = nilai maksimal tinggi anak kiri dan kanan, ditambahin 1
 int computeNewHeight(Node *root) {
   return max(getHeight(root->left), getHeight(root->right)) + 1;
 }
@@ -51,11 +61,13 @@ Node *createNode(int value) {
 }
 
 Node *rotation(Node *root) {
-  root->height = computeNewHeight(root);
-  int BFRoot = getBalanceFactor(root);
-  int BFRight = getBalanceFactor(root->right);
-  int BFLeft = getBalanceFactor(root->left);
+  root->height = computeNewHeight(root); // update tinggi root setelah insert/delete
+  int BFRoot = getBalanceFactor(root); // balance factor root
+  int BFRight = getBalanceFactor(root->right); // balance factor anak kanan
+  int BFLeft = getBalanceFactor(root->left); // balance factor anak kiri
 
+  // BFRoot > 1 = condong kiri
+  // BFRoot < -1 = condong kanan
   if(BFRoot > 1 && BFLeft >= 0) {
     return rightRotate(root);
   } else if(BFRoot > 1 && BFLeft < 0) {
