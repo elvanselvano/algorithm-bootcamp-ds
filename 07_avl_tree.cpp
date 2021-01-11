@@ -32,6 +32,8 @@ int computeNewHeight(Node *root) {
   return max(getHeight(root->left), getHeight(root->right)) + 1;
 }
 
+// Visualisasi left rotate dan right rotate:
+// https://drive.google.com/drive/folders/1_dRl8kpv5TSJfLvUaGAuoyij0ZreyLSu?usp=sharing
 Node *leftRotate(Node *x) {
   Node *y = x->right;
   Node *z = y->left;
