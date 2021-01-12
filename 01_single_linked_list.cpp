@@ -55,7 +55,7 @@ void popHead() {
     Node *temp = head->next; // 98 (head) -> 100 (temp) -> 95 -> 97 (tail) -> NULL
     head->next = NULL; // 98 (head) -> N || 100 (temp) -> 95 -> 97 (tail) -> NULL
     free(head); // free allocated memory
-    head = NULL; // remove value
+    head = temp; // set new head
   }
 }
 
@@ -100,6 +100,5 @@ int main() {
   popTail(); // 100 (head, tail) -> NULL
   popHead(); // NULL
   printLinkedList();
-
   return 0;
 }
