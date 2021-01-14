@@ -1,39 +1,32 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// Teori: https://medium.com/@elvanselvano/avl-tree-perfectly-balanced-as-all-things-should-be-ca15a6d59ac5
+// Reading material: https://medium.com/@elvanselvano/avl-tree-perfectly-balanced-as-all-things-should-be-ca15a6d59ac5
 struct Node {
   int value, height;
   Node *left, *right;
 };
 
-// mencari nilai maksimal dari dua angka
-int max(int a, int b) {
+int max(int a, int b) { // find maximum between 2 numbers
   return (a > b) ? a : b;
 }
 
-// mendapatkan tinggi sebuah node
-// jika NULL, heightnya adalah 0
-int getHeight(Node *root) {
+int getHeight(Node *root) { // find height of a root
   return (root) ? root->height : 0;
 }
 
-// Balance Factor = H1 - H2
-// H1 = tinggi anak kiri, H2 = tinggi anak kanan
-// jika NULL, Balance Factornya adalah 0
-int getBalanceFactor(Node *root) {
+// BF = height of left child - height of right child
+int getBalanceFactor(Node *root) { 
   return (root) ? getHeight(root->left) - getHeight(root->right) : 0;
 }
 
-// mendapatkan tinggi baru sebuah node
-// ketika ada insert atau delete (karena posisi bakal berubah)
-// new height = nilai maksimal tinggi anak kiri dan kanan, ditambahin 1
+// find new height of a root during insertion or deletion
+// height = max between left child or right child, plus 1
 int computeNewHeight(Node *root) {
   return max(getHeight(root->left), getHeight(root->right)) + 1;
 }
 
-// Visualisasi left rotate dan right rotate:
-// https://drive.google.com/drive/folders/1_dRl8kpv5TSJfLvUaGAuoyij0ZreyLSu?usp=sharing
+// Rotation: https://drive.google.com/drive/folders/1_dRl8kpv5TSJfLvUaGAuoyij0ZreyLSu?usp=sharing
 Node *leftRotate(Node *x) {
   Node *y = x->right;
   Node *z = y->left;
@@ -63,16 +56,14 @@ Node *createNode(int value) {
 }
 
 Node *rotation(Node *root) {
-  root->height = computeNewHeight(root); // update tinggi root setelah insert/delete
+  root->height = computeNewHeight(root); // get new height after insertion/deletion
   int BFRoot = getBalanceFactor(root); // balance factor root
-  int BFRight = getBalanceFactor(root->right); // balance factor anak kanan
-  int BFLeft = getBalanceFactor(root->left); // balance factor anak kiri
+  int BFRight = getBalanceFactor(root->right); // balance factor right child
+  int BFLeft = getBalanceFactor(root->left); // balance factor left child
 
-  // BFRoot > 1 = condong kiri
-  // BFRoot < -1 = condong kanan
-  if(BFRoot > 1 && BFLeft >= 0) {
+  if(BFRoot > 1 && BFLeft >= 0) { // BFRoot > 1 = left child unbalanced
     return rightRotate(root);
-  } else if(BFRoot > 1 && BFLeft < 0) {
+  } else if(BFRoot > 1 && BFLeft < 0) { // BFRoot < -1 = right child unbalanced
     root->left = leftRotate(root->left);
     return rightRotate(root);
   } else if(BFRoot < -1 && BFRight <= 0) {
