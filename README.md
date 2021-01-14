@@ -1,6 +1,6 @@
 # Data Structure
 
-!(<https://github.com/elvanselvano/algorithm-bootcamp-ds/blob/main/pictures/google-form-header.png>)
+![Header](https://github.com/elvanselvano/algorithm-bootcamp-ds/blob/main/pictures/google-form-header.png)
 
 ## Materials
 
@@ -10,10 +10,10 @@
 |           Linked List           |        `Single Linked List` `Double Linked List`        |    01_single_linked_list.cpp 02_double_linked_list.cpp    |
 |         Stack and Queue         |            `Stack` `Queue` `Priority Queue`             |       03_stack_and_queue.cpp 04_priority_queue.cpp        |
 |     Hashing and Hash Tables     |    `Hash Table` `Hash Function` `Collision Handling`    | 05_hashtable_linear_probing.cpp 06_hashtable_chaining.cpp |
-|       Binary Search Tree        |               `Binary Search Tree` `CRUD`               |                 07_binary_search_tree.cpp                 |
-|            AVL Tree             |         `Binary Search Tree` `CRUD` `Rotation`          |                      08_avl_tree.cpp                      |
-|             B-Tree              |                    `2-3 Tree` `CRUD`                    |                       09_b_tree.cpp                       |
-|         Red Black Tree          |           `Coloring` `Red Black Tree` `CRUD`            |                             -                             |
+|       Binary Search Tree        |               `Tree` `Binary Search Tree`               |                 07_binary_search_tree.cpp                 |
+|            AVL Tree             |             `Binary Search Tree` `Rotation`             |                      08_avl_tree.cpp                      |
+|             B-Tree              |                   `2-3 Tree` `B-Tree`                   |                       09_b_tree.cpp                       |
+|         Red Black Tree          |               `Coloring` `Red Black Tree`               |                             -                             |
 |              Heaps              |          `Max-Heap` `Min-Heap` `Min-Max Heap`           |                             -                             |
 |              Tries              |          `Tries Concept` `Tries Applications`           |                             -                             |
 |     Disjoint Set and Graphs     | `Disjoint Sets` `Minimum Spanning Tree` `Shortest Path` |                             -                             |
