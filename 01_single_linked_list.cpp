@@ -1,34 +1,32 @@
 #include <stdio.h>
-#include <string.h>
 #include <stdlib.h>
 
 struct Node {
-  char name[255];
-  int score;
+  int value;
   Node *next; // node's next pointer
 } *head, *tail; // global head and tail
 
-Node *createNode(const char *name, int score) {
-  Node *newNode = (Node*)malloc(sizeof(Node)); // allocate memory
-  strcpy(newNode->name, name);
-  newNode->score = score;
+Node *createNode(int value) {
+  // allocate memory with size of Node and cast it to Node*
+  Node *newNode = (Node*)malloc(sizeof(Node)); 
+  newNode->value = value; // fill in the value
   newNode->next = NULL; // next node is null
   return newNode;
 }
 
-void pushHead(const char *name, int score) {
-  Node *temp = createNode(name, score); // create new node
+void pushHead(int value) {
+  Node *temp = createNode(value); // create new node
 
   if(!head) { // if there's no head (0 node)
-    head = tail = temp;
+    head = tail = temp; // node is the first and last
   } else { // >= 1 node
     temp->next = head; // node points to head
     head = temp; // node becomes head
   }
 }
 
-void pushTail(const char *name, int score) {
-  Node *temp = createNode(name, score);
+void pushTail(int value) {
+  Node *temp = createNode(value);
 
   if(!head) { // empty list
     head = tail = temp; // temp (head dan tail)
@@ -76,29 +74,45 @@ void printLinkedList() {
   Node *curr = head; // set current node to head
                                           
   while(curr) { // while there is still curr
-    printf("%s -> ", curr->name);
+    printf("%d -> ", curr->value);
     curr = curr->next; // move to the next node
   }
   puts("NULL");
   getchar();
 }
 
+void visualizeList(int N, int values[], int randomizer) {
+  for(int i = 0; i < N; i++) {
+    if(i % randomizer) {
+      pushHead(values[i]);
+      printf("Inserted %d to the head.\n", values[i]);
+    } else {
+      pushTail(values[i]);
+      printf("Inserted %d to the tail.\n", values[i]);
+    }
+
+    printLinkedList();
+  }
+
+  for(int i = 0; i < N; i++) {
+    if(i % randomizer) {
+      popTail();
+      puts("Removed the tail.");
+    } else {
+      popHead();
+      puts("Removed the head.");
+    }
+
+    printLinkedList();
+  }
+}
+
 int main() {
-  pushHead("Darnell", 95); // 95 (head, tail) -> NULL
-  printLinkedList();
-  pushTail("whisper0", 97); // 95 (head) -> 97 (tail) -> NULL
-  printLinkedList();
-  pushHead("pai", 100); // 100 (head) -> 95 -> 97 (tail) -> NULL
-  printLinkedList();
-  pushHead("romario", 98); // 98 (head) -> 100 -> 95 -> 97 (tail) -> NULL
-  printLinkedList();
-  popHead(); // 100 (head) -> 95 -> 97 (tail) -> NULL
-  printLinkedList();
-  popTail(); // 100 (head) -> 95 (tail) -> NULL
-  printLinkedList();
-  popTail(); // 100 (head, tail) -> NULL
-  printLinkedList();
-  popHead(); // NULL
-  printLinkedList();
+  int N = 8;
+  int values[] = {10, 9, 13, 12, 5, 11, 8, 15};
+  visualizeList(N, values, 2);
+  visualizeList(N, values, 1);
+  visualizeList(N, values, 3);
+
   return 0;
 }
