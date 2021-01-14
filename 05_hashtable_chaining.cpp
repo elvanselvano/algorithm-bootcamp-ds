@@ -2,16 +2,12 @@
 #include <stdlib.h>
 #include <string.h>
 
-// max_element bukan menandakan panjang node
-// dari sebuah linked list akan tetapi jumlah linked list 
-// maksimal dalam sebuah hashtable
-const int MAX_ELEMENT = 10;
+const int MAX_BUCKETS = 5; // 5 linked lists
 
 struct Node {
   char name[255];
   Node *next;
-  // terdapat 10 buah linked list dengan 10 head dan tail
-} *head[MAX_ELEMENT], *tail[MAX_ELEMENT];
+} *head[MAX_BUCKETS], *tail[MAX_BUCKETS];
 
 Node *createNode(const char *name) {
   Node *temp = (Node*)malloc(sizeof(Node));
@@ -23,24 +19,22 @@ Node *createNode(const char *name) {
 unsigned long djb2(const char *str) {
   unsigned long hash = 5381;
   int c;
+  // *str++ is going to the next address in memory, 
+  // where the next char in the string is stored
   while ((c = *str++)) {
     hash = ((hash << 5) + hash) + c;
   }
     
-  return hash % MAX_ELEMENT;
+  return hash % MAX_BUCKETS;
 }
 
-void insert(const char *str) {
-  // 0 -> .. -> ..
-  // 1 -> .. 
-  // 2
-  // 3 -> .. -> .. -> ..
+void insert(const char *str) { // similar to pushTail()
   Node *temp = createNode(str);
-  int index = djb2(str);
+  int index = djb2(str); // use djb2 hashing algorithm
 
-  if(!head[index]) { // cek apakah headnya kosong
+  if(!head[index]) { // if head is empty
     head[index] = tail[index] = temp;
-  } else { // jika sudah terisi lakukan push tail
+  } else { // else push tail
     tail[index]->next = temp;
     tail[index] = temp;
   }
@@ -56,10 +50,10 @@ void traverseLinkedList(int i) {
 }
 
 void view() {
-  for(int i = 0; i < MAX_ELEMENT; i++) {
+  for(int i = 0; i < MAX_BUCKETS; i++) {
     printf("Index %d: ", i);
-    if(head[i]) { // jika ada head
-      traverseLinkedList(i); // kita traverse
+    if(head[i]) { // if head exists
+      traverseLinkedList(i);
     } 
     puts("NULL");
   }
@@ -73,6 +67,7 @@ int main() {
   insert("valencia");
   insert("laffpai");
   insert("kevice");
+  insert("darnell");
   view();
   return 0;
 }
