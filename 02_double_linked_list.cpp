@@ -76,10 +76,10 @@ void popHead() {
     free(head);
     head = tail = NULL;
   } else { // >= 1 node
-    Node *newHead = head->next; // A (head) -><- B (temp) -><- C
-    head->next = newHead->prev = NULL; // A (head) || B (temp) -><- C
-    free(head); // B (temp) -><- C
-    head = newHead; // B (head, temp) -><- C
+    Node *newHead = head->next; // A (head) -><- B (newHead) -><- C
+    head->next = newHead->prev = NULL; // A (head) || B (newHead) -><- C
+    free(head); // B (newHead) -><- C
+    head = newHead; // B (head, newHead) -><- C
   }
 }
 
