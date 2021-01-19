@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h>
 
 struct Node {
   int value;
@@ -8,10 +7,10 @@ struct Node {
 };
 
 Node *createNode(int value) {
-  Node *temp = (Node*)malloc(sizeof(Node));
-  temp->value = value;
-  temp->left = temp->right = NULL;
-  return temp;
+  Node *newNode = (Node*)malloc(sizeof(Node));
+  newNode->value = value;
+  newNode->left = newNode->right = NULL;
+  return newNode;
 }
 
 //                  15
@@ -27,7 +26,7 @@ Node *createNode(int value) {
 // 15->left->right->right = 13
 
 Node *insertNode(Node *root, int value) {
-  if(!root) { // empty tree
+  if(!root) { // empty node
     return createNode(value);
   } else if(value < root->value) { // enter left subtree
     root->left = insertNode(root->left, value);
@@ -49,7 +48,7 @@ Node *inOrderSucessor(Node *root) { // minimum value in right subtree
 }
 
 Node *inOrderPredecessor(Node *root) { // maximum value in left subtree
-  Node *curr = root->right; // root of left subtree
+  Node *curr = root->left; // root of left subtree
 
   while(curr && curr->right) { 
     curr = curr->right; // find maximum value by traversing right
