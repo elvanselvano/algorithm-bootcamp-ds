@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 struct Node {
   int value;
@@ -83,7 +84,7 @@ Node *deleteNode(Node *root, int value) {
     // 2 children using inOrderPredecessor
     // Node *newRoot = inOrderPredecessor(root);
     // root->value = newRoot->value; // copy value
-    // root->right = deleteNode(root->left, newRoot->value); // remove the inorder predecessor
+    // root->left = deleteNode(root->left, newRoot->value); // remove the inorder predecessor
   }
 
   return root;
