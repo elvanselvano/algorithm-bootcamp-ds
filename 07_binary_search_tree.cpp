@@ -59,17 +59,17 @@ Node *inOrderPredecessor(Node *root) { // maximum value in left subtree
 
 Node *deleteNode(Node *root, int value) {
   if(!root) { // empty tree
-    return root;
+    return root; // return unchanged tree
   } else if(value < root->value) { // enter left subtree
     root->left = deleteNode(root->left, value);
   } else if(value > root->value) { // enter right subtree
     root->right = deleteNode(root->right, value);
   } else {
-
-    if(!root->left || !root->right) { // 0 and 1 child
+    if(!root->left || !root->right) { // 0 or 1 child
       // if left child is null, new root is right child
       // if right child is null, new root is left child
       Node *newRoot = root->left ? root->left : root->right;
+      root->left = root->right = NULL;
       free(root); // remove old root
       root = NULL;
       return newRoot;
