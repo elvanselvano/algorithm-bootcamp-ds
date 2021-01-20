@@ -1,31 +1,37 @@
-# Ignore all
-*
-
-# Unignore all with extensions
-!*.*
-
-# Unignore all dirs
-!*/
-
-### Above combination will ignore all files without extension ###
-
-# Ignore files with extension `.class` & `.sm`
+# Compiled source #
+###################
+*.com
 *.class
-*.sm
+*.dll
+*.exe
+*.o
+*.so
 
-# Ignore `bin` dir
-bin/
-# or
-*/bin/*
+# Packages #
+############
+# it's better to unpack these files and commit the raw source
+# git has its own built in compression methods
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
 
-# Unignore all `.jar` in `bin` dir
-!*/bin/*.jar
+# Logs and databases #
+######################
+*.log
+*.sql
+*.sqlite
 
-# Ignore all `library.jar` in `bin` dir
-*/bin/library.jar
-
-# Ignore a file with extension
-relative/path/to/dir/filename.extension
-
-# Ignore a file without extension
-relative/path/to/dir/anotherfile
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
