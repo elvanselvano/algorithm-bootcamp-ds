@@ -32,8 +32,8 @@ void insert(const char *str) { // similar to pushTail()
   Node *temp = createNode(str);
   int index = djb2(str); // use djb2 hashing algorithm
 
-  if(!head[index]) { // if head is empty
-    head[index] = tail[index] = temp;
+  if(!tail[index]) { // if tail is empty
+    tail[index] = head[index] = temp;
   } else { // else push tail
     tail[index]->next = temp;
     tail[index] = temp;
