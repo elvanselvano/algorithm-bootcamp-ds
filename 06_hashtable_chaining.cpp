@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-const int MAX_BUCKETS = 5; // 5 linked lists
+const int MAX_BUCKETS = 6; // 6 linked lists
 
 struct Node {
   char name[255];
@@ -16,12 +16,12 @@ Node *createNode(const char *name) {
   return temp;
 }
 
+// https://stackoverflow.com/questions/1579721/why-are-5381-and-33-so-important-in-the-djb2-algorithm
 unsigned long djb2(const char *str) {
   unsigned long hash = 5381;
-  int c;
-  // *str++ is going to the next address in memory, 
-  // where the next char in the string is stored
-  while ((c = *str++)) {
+
+  for(int i = 0; str[i] != '\0'; i++) {
+    int c = int(str[i]);
     hash = ((hash << 5) + hash) + c;
   }
     
@@ -60,14 +60,17 @@ void view() {
 }
 
 int main() {
-  insert("romario");
-  insert("admiralspoon");
-  insert("kesya");
-  insert("nich");
-  insert("valencia");
-  insert("laffpai");
-  insert("kevice");
-  insert("darnell");
+  char names[][255] = {
+    {"romario"}, {"admiralspoon"}, {"kesya"}, 
+    {"nich"}, {"valencia"}, {"laffpai"},
+    {"kevice"}, {"darnell"}, {"doctorneuron"},
+    {"ashborne"}, {"hans"}, {"whisper"}
+  };
+
+  for(int i = 0; i < 12; i++) {
+    insert(names[i]);
+  }
+
   view();
   return 0;
 }
