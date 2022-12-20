@@ -6,20 +6,22 @@ struct Node {
   Node *left, *right;
 };
 
-int max(int a, int b) { // maximum between 2 numbers
+int max(int a, int b) {
   return (a > b) ? a : b;
 }
 
-int getHeight(Node *root) { // height of a node
-  return (root) ? root->height : 0;
+int getHeight(Node *root) {
+  return root ? root->height : 0;
 }
 
-int getBalanceFactor(Node *root) {  // height of left child - height of right child
-  return (root) ? getHeight(root->left) - getHeight(root->right) : 0;
-}
-
-int computeNewHeight(Node *root) { // new height after insertion or deletion
+// Height is used to calculate balance factor
+int setHeight(Node *root) { // new height after insertion or deletion
   return max(getHeight(root->left), getHeight(root->right)) + 1;
+}
+
+// BF is used to determine whether subtree/tree is unbalanced/balanced
+int setBalanceFactor(Node *root) {
+  return getHeight(root->left) - getHeight(root->right);
 }
 
 Node *createNode(int value) {
@@ -32,15 +34,14 @@ Node *createNode(int value) {
 }
 
 Node *updateNode(Node *root) {
-  root->height = computeNewHeight(root);
-  root->bf = getBalanceFactor(root);
+  root->height = setHeight(root);
+  root->bf = setBalanceFactor(root);
   return root;
 }
 
-// Rotation: https://drive.google.com/drive/folders/1_dRl8kpv5TSJfLvUaGAuoyij0ZreyLSu?usp=sharing
 Node *leftRotate(Node *root) {
   Node *pivot = root->right;
-  Node *temp = pivot->left;
+  Node *temp = pivot->left; 
   pivot->left = root;
   root->right = temp;
   root = updateNode(root);
@@ -58,20 +59,24 @@ Node *rightRotate(Node *root) {
   return pivot;
 }
 
-Node *rotation(Node *root) {
-  if(root->bf > 1 && root->left->bf >= 0) { // bf > 1 = left child unbalanced
-    return rightRotate(root);
-  } else if(root->bf > 1 && root->left->bf < 0) {
-    root->left = leftRotate(root->left); // double rotation
-    return rightRotate(root);
-  } else if(root->bf < -1 && root->right->bf <= 0) { // bf < -1 = right child unbalanced
-    return leftRotate(root);
-  } else if(root->bf < - 1 && root->right->bf > 0) {
-    root->right = rightRotate(root->right); // double rotation
-    return leftRotate(root);
+Node *rotation(Node *root) { // determine unbalanced left/right child -> determine linear/zig-zag pattern
+  if(root->bf > 1) { // unbalanced left child
+    if(root->left->bf >= 0) { // right rotation
+      return rightRotate(root); // not zig zag pattern
+    } else { // left-right rotation -> zig zag pattern
+      root->left = leftRotate(root->left); // make it a linear pattern
+      return rightRotate(root); // then do single rotation
+    }
+  } else if(root->bf < -1) { // unbalanced right child
+    if(root->right->bf <= 0) { // left rotation
+      return leftRotate(root); // not zig zag pattern
+    } else { // right-left rotation -> zig zag pattern
+      root->right = rightRotate(root->right); // make it a linear pattern
+      return leftRotate(root); // then do single rotation
+    }
   }
 
-  return root;
+  return root; // no rotation needed
 }
 
 Node *insertNode(Node *root, int value) {
